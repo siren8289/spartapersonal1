@@ -4,55 +4,51 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
-        // Calculator 객체를 생성합니다.
-        // 생성자 호출 시 결과 리스트가 초기화됩니다.
-        Calculator calculator = new Calculator();
+        // 인스턴스 생성
         Scanner sc = new Scanner(System.in);
+        Calculator calculator = null;
 
         while (true) {
-            System.out.println("첫 번째 숫자 입력 (종료=exit):");
-            String input = sc.next();
+            System.out.println("사칙연산을 진행할까요, 원의 넓이를 구할까요? (사칙연산=calc, 원의 넓이=area, 종료=exit)");
+            String choice = sc.next();
 
-            if (input.equalsIgnoreCase("exit")) {
+            if (choice.equalsIgnoreCase("exit")) {
                 break;
-            } else if (input.equalsIgnoreCase("remove")) {
-                // 결과 삭제 메서드 호출
-                calculator.removeResult();
-                System.out.println("가장 먼저 저장된 결과가 삭제되었습니다.");
-                continue;
-            } else if (input.equalsIgnoreCase("inquiry")) {
-                // 결과 조회 메서드 호출
+            } else if (choice.equalsIgnoreCase("calc")) {
+                // ArithmeticCalculator 객체를 생성합니다.
+                calculator = new ArithmeticCalculator();
+                System.out.print("첫 번째 숫자를 입력하세요: ");
+                double num1 = sc.nextDouble();
+                System.out.print("두 번째 숫자를 입력하세요: ");
+                double num2 = sc.nextDouble();
+                System.out.print("사칙연산 기호를 입력하세요 (+, -, *, /): ");
+                char operator = sc.next().charAt(0);
+
+                try {
+                    double result = ((ArithmeticCalculator) calculator).calculate(num1, num2, operator);
+                    System.out.println("결과: " + result);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+
+            } else if (choice.equalsIgnoreCase("area")) {
+                // CircleCalculator 객체를 생성합니다.
+                calculator = new CircleCalculator();
+                System.out.print("원의 반지름을 입력하세요: ");
+                double radius = sc.nextDouble();
+
+                double area = ((CircleCalculator) calculator).calculateCircleArea(radius);
+                System.out.println("원의 넓이: " + area);
+
+                // 저장된 원의 넓이 값을 전체 조회
+                System.out.println("저장된 원의 넓이 결과:");
                 calculator.inquiryResults();
-                continue;
+            } else {
+                System.out.println("유효하지 않은 선택입니다. 다시 시도하세요.");
             }
 
-            int num1;
-            try {
-                num1 = Integer.parseInt(input);
-            } catch (NumberFormatException e) {
-                System.out.println("유효한 숫자를 입력하세요.");
-                continue;
-            }
-
-            System.out.print("두 번째 숫자를 입력하세요: ");
-            int num2 = sc.nextInt();
-
-            System.out.print("사칙연산 기호를 입력하세요 (+, -, *, /): ");
-            char operator = sc.next().charAt(0);
-
-            try {
-                int result = calculator.calculate(num1, num2, operator);
-                System.out.println("결과: " + result);
-            } catch (InvalidOperationException e) {
-                System.out.println(e.getMessage());
-            }
-
-            System.out.println("더 계산하시겠습니까? (exit 입력 시 종료)");
+            System.out.println("계속 진행할까요? (exit 입력 시 종료)");
         }
-
-        // 프로그램 종료 후, 저장된 연산 결과를 출력합니다.
-        System.out.println("프로그램 종료. 저장된 연산 결과:");
-        calculator.inquiryResults();
 
         sc.close();
     }
