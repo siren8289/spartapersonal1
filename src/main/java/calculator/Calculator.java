@@ -7,9 +7,10 @@ public class Calculator {
     // 연산 결과를 저장하는 컬렉션 타입 필드를 private으로 선언하여 외부에서 직접 접근하지 못하도록 합니다.
     private List<Integer> results;
 
-    // 기본 생성자
+    // 생성자: Calculator 인스턴스 생성 시 결과 리스트를 초기화합니다.
     public Calculator() {
-        results = new ArrayList<>();
+        // 결과를 저장할 리스트를 생성합니다.
+        this.results = new ArrayList<>();
     }
 
     // 연산 메서드
@@ -61,6 +62,13 @@ public class Calculator {
     // Setter 메서드
     public void setResults(List<Integer> newResults) {
         this.results = new ArrayList<>(newResults);
+    }
+
+    // 결과 리스트에서 가장 먼저 저장된 데이터를 삭제하는 메서드
+    public void removeResult() {
+        if (!results.isEmpty()) {
+            results.remove(0); // 가장 먼저 저장된 결과를 삭제합니다.
+        }
     }
 }
 

@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class App {
     public static void main(String[] args) {
         // Calculator 객체를 생성합니다.
+        // 생성자 호출 시 결과 리스트가 초기화됩니다.
         Calculator calculator = new Calculator();
         Scanner sc = new Scanner(System.in);
 
