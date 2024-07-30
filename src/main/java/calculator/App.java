@@ -1,27 +1,37 @@
 package calculator;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class App {
     public static void main(String[] args) {
         // 스캐너 객체 생성
         Scanner sc = new Scanner(System.in);
-        // 연산 결과 저장 배열 생성 (최대 10개)
-        int[] results = new int[10];
-        int count = 0;
+        List<String> results = new LinkedList<>();
 
         while (true) {
-            // 배열이 가득 찬 경우 종료
-            if (count >= results.length) {
-                System.out.println("저장 공간이 가득 찼습니다. 프로그램을 종료합니다.");
-                break;
-            }
-
             System.out.println("첫 번째 숫자 입력 (종료=exit):");
             String input = sc.next();
 
             if (input.equalsIgnoreCase("exit")) {
                 break;
+            } else if (input.equalsIgnoreCase("remove")) {
+                if (!results.isEmpty()) {
+                    results.remove(0);
+                    System.out.println("가장 먼저 저장된 결과가 삭제되었습니다.");
+                } else {
+                    System.out.println("저장된 결과가 없습니다.");
+                }
+                continue;
+            } else if (input.equalsIgnoreCase("inquiry")) {
+                if (results.isEmpty()) {
+                    System.out.println("저장된 결과가 없습니다.");
+                } else {
+                    System.out.println("저장된 연산 결과:");
+                    for (String result : results) {
+                        System.out.println("결과: " + result);
+                    }
+                }
+                continue;
             }
 
             int num1;
@@ -63,16 +73,17 @@ public class App {
             }
 
             // 연산 결과 저장
-            results[count] = result;
-            count++;
+            results.add(String.valueOf(result));
 
             System.out.println("결과: " + result);
         }
 
-        // 저장된 결과 출력
+        // 프로그램 종료 후, 저장된 결과를 출력합니다.
         System.out.println("저장된 연산 결과:");
-        for (int i = 0; i < count; i++) {
-            System.out.println("결과 " + (i + 1) + ": " + results[i]);
+        for (String result : results) {
+            System.out.println("결과: " + result);
         }
+
+        sc.close();
     }
 }
